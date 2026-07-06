@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-6",
+  "instructions": ["AGENTS.md"],
+
+  "skills": {
+    "paths": [".opencode/skills"]
+  },
+
+  "references": {
+    "original": {
+      "path": "../sgmz vf",
+      "description": "Original GYMOS project (vanilla JS) to reference during migration"
+    }
+  },
+
+  "agent": {
+    "migrate": {
+      "description": "Migrate pages or features from the original vanilla JS project to the React + HeroUI v3 project",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-6",
+      "permission": {
+        "edit": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "bash": "allow"
+      },
+      "prompt": "You are a migration specialist converting a vanilla JS gym management app (GYMOS) to React + HeroUI v3. Follow these rules:\n\n1. Read the original file from the 'original' reference first before converting\n2. Use HeroUI v3 compound components (Card.Header, Card.Content, etc.)\n3. Button variants: 'primary', 'secondary', 'tertiary', 'outline', 'ghost', 'danger', 'danger-soft'\n4. Use onPress instead of onClick for buttons\n5. Card uses Card.Content (not CardBody), Card.Header, Card.Title, Card.Description\n6. Input uses standard onChange, variant is 'primary'|'secondary'\n7. No Provider needed - HeroUI v3 doesn't need one\n8. Import from '@heroui/react'\n9. Use Tailwind CSS v4 classes\n10. Use Bootstrap Icons (bi-*) for icons\n11. Keep existing Supabase queries from the original\n12. Maintain the same i18n pattern (t() function with dot notation)\n13. Maintain dark/light theme support"
+    }
+  },
+
+  "command": {
+    "dev": {
+      "description": "Start the React dev server",
+      "template": "npm run dev"
+    },
+    "build": {
+      "description": "Build the React project for production",
+      "template": "npm run build"
+    },
+    "typecheck": {
+      "description": "Run TypeScript type checking",
+      "template": "npx tsc --noEmit"
+    }
+  }
+}
