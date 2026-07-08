@@ -68,37 +68,33 @@ export default function Plans() {
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border p-6 animate-scale-in" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+        <div className="glass rounded-2xl p-6 animate-scale-in">
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('plans.name')}</label>
                 <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required maxLength={100}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('plans.duration')}</label>
                 <input type="number" value={form.duration_days} onChange={e => setForm(f => ({ ...f, duration_days: +e.target.value }))} required min={1}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('plans.price')}</label>
                 <input type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: +e.target.value }))} required min={0} step="0.01"
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('plans.color')}</label>
                 <input type="color" value={form.color} onChange={e => setForm(f => ({ ...f, color: e.target.value }))}
-                  className="w-full h-10 rounded-xl border cursor-pointer" style={{ borderColor: 'var(--border)' }} />
+                  className="w-full h-10 rounded-xl border cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--border)' }} />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('plans.description')}</label>
                 <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} maxLength={500}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input resize-none" />
               </div>
             </div>
             <div className="flex gap-2 pt-2">
@@ -114,22 +110,20 @@ export default function Plans() {
           {Array.from({ length: 4 }).map((_, i) => <div key={i} className="skeleton h-36 rounded-2xl" />)}
         </div>
       ) : plans.length === 0 ? (
-        <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
-          <div className="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--bg)' }}>
-            <i className="bi bi-boxes text-2xl" />
-          </div>
-          <h3 className="text-lg font-medium">{t('plans.empty')}</h3>
+        <div className="empty-state">
+          <div className="empty-state-icon"><i className="bi bi-boxes" /></div>
+          <p className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>{t('plans.empty')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {plans.map((plan, i) => (
-            <div key={plan.id} className="card-hover rounded-2xl border p-5 flex flex-col animate-fade-up" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)', animationDelay: `${i * 50}ms` }}>
+            <div key={plan.id} className="card-hover glass rounded-2xl p-5 flex flex-col animate-fade-up" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 rounded-full shrink-0" style={{ background: plan.color || '#4F7CFF' }} />
                   <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{plan.name}</h3>
                 </div>
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: 'var(--bg)', color: 'var(--text-muted)' }}>
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full glass" style={{ color: 'var(--text-muted)' }}>
                   {plan.duration_days} {t('common.days')}
                 </span>
               </div>

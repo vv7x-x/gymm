@@ -105,7 +105,8 @@ export async function uploadPhoto(file: File): Promise<string | null> {
     if (error) throw error
     const { data: { publicUrl } } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path)
     return publicUrl
-  } catch {
+  } catch (e) {
+    console.error('[upload]', e)
     return null
   }
 }
@@ -118,7 +119,8 @@ export async function deletePhoto(url: string): Promise<void> {
     if (path) {
       await supabase.storage.from(STORAGE_BUCKET).remove([path])
     }
-  } catch { /* silent */
+  } catch (e) {
+    console.error('[deletePhoto]', e)
   }
 }
 

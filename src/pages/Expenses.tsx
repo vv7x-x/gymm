@@ -54,7 +54,7 @@ export default function Expenses() {
         <Button variant="primary" onPress={() => setShowForm(true)}><i className="bi bi-plus" /> {t('expenses.add')}</Button>
       </div>
 
-      <div className="rounded-2xl border p-5" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl p-5">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white" style={{ background: 'var(--gradient-4)' }}>
             <i className="bi bi-wallet2" />
@@ -67,15 +67,14 @@ export default function Expenses() {
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border p-6 animate-scale-in" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+        <div className="glass rounded-2xl p-6 animate-scale-in">
           <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('expenses.add')}</h3>
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('expenses.category')}</label>
                 <select value={form.category_id} onChange={e => setForm(f => ({ ...f, category_id: e.target.value }))} required
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}>
+                  className="form-input">
                   <option value="">{t('common.select')}</option>
                   {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
@@ -83,20 +82,17 @@ export default function Expenses() {
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('expenses.amount')}</label>
                 <input type="number" value={form.amount} onChange={e => setForm(f => ({ ...f, amount: +e.target.value }))} required min={0} step="0.01"
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('expenses.date')}</label>
                 <input type="date" value={form.expense_date} onChange={e => setForm(f => ({ ...f, expense_date: e.target.value }))} required
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('expenses.method')}</label>
                 <select value={form.payment_method} onChange={e => setForm(f => ({ ...f, payment_method: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}>
+                  className="form-input">
                   <option value="cash">Cash</option>
                   <option value="card">Card</option>
                   <option value="bank">{t('expenses.bankTransfer')}</option>
@@ -105,8 +101,7 @@ export default function Expenses() {
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('expenses.description')}</label>
                 <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} maxLength={500}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input resize-none" />
               </div>
             </div>
             <div className="flex gap-2 pt-2">
@@ -117,38 +112,38 @@ export default function Expenses() {
         </div>
       )}
 
-      <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl overflow-hidden">
         <div className="p-6 pb-0">
           <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t('expenses.history')}</h3>
         </div>
         {expenses.length === 0 ? (
-          <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
-            <i className="bi bi-receipt-cutoff text-4xl block mb-3" />
+          <div className="empty-state">
+            <div className="empty-state-icon"><i className="bi bi-receipt-cutoff" /></div>
             {t('common.noData')}
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="table-wrap">
+            <table className="table-base">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <th className="text-left py-3 px-6 font-medium" style={{ color: 'var(--text-muted)' }}>{t('expenses.date')}</th>
-                  <th className="text-left py-3 px-6 font-medium" style={{ color: 'var(--text-muted)' }}>{t('expenses.category')}</th>
-                  <th className="text-left py-3 px-6 font-medium" style={{ color: 'var(--text-muted)' }}>{t('expenses.description')}</th>
-                  <th className="text-right py-3 px-6 font-medium" style={{ color: 'var(--text-muted)' }}>{t('expenses.amount')}</th>
+                <tr>
+                  <th>{t('expenses.date')}</th>
+                  <th>{t('expenses.category')}</th>
+                  <th>{t('expenses.description')}</th>
+                  <th style={{ textAlign: 'right' }}>{t('expenses.amount')}</th>
                 </tr>
               </thead>
               <tbody>
                 {expenses.map(ex => (
-                  <tr key={ex.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
-                    <td className="py-3 px-6" style={{ color: 'var(--text-primary)' }}>{formatDate(ex.expense_date)}</td>
-                    <td className="py-3 px-6">
+                  <tr key={ex.id}>
+                    <td style={{ whiteSpace: 'nowrap' }}>{formatDate(ex.expense_date)}</td>
+                    <td>
                       <span className="inline-flex items-center gap-1.5">
                         {ex.expense_categories?.color && <span className="w-2 h-2 rounded-full" style={{ background: ex.expense_categories.color }} />}
                         <span style={{ color: 'var(--text-primary)' }}>{ex.expense_categories?.name || '-'}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-6" style={{ color: 'var(--text-secondary)' }}>{ex.description || '-'}</td>
-                    <td className="py-3 px-6 text-right font-semibold" style={{ color: 'var(--danger)' }}>-{formatCurrency(ex.amount)}</td>
+                    <td style={{ color: 'var(--text-secondary)' }}>{ex.description || '-'}</td>
+                    <td style={{ textAlign: 'right' }}><span style={{ color: 'var(--danger)' }}>-{formatCurrency(ex.amount)}</span></td>
                   </tr>
                 ))}
               </tbody>

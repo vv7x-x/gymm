@@ -47,6 +47,7 @@
     "@heroui/styles": "^3.2.1",
     "@supabase/supabase-js": "^2.110.0",
     "chart.js": "^4.5.1",
+    "framer-motion": "^12.42.2",
     "html5-qrcode": "^2.3.8",
     "qrcode": "^1.5.4",
     "react": "^19.2.7",

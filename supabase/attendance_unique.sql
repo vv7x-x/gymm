@@ -14,8 +14,14 @@ ADD CONSTRAINT unique_member_checkin UNIQUE (member_id, check_in_date);
 
 ALTER TABLE public.attendance ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Staff read attendance" ON public.attendance
-  FOR SELECT USING (is_staff());
+DROP POLICY IF EXISTS "Staff read attendance" ON public.attendance;
+DROP POLICY IF EXISTS "Staff insert attendance" ON public.attendance;
 
-CREATE POLICY "Staff insert attendance" ON public.attendance
-  FOR INSERT WITH CHECK (is_staff());
+CREATE POLICY "Anyone read attendance" ON public.attendance
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Anyone can check in" ON public.attendance
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Anyone delete attendance" ON public.attendance
+  FOR DELETE USING (auth.role() = 'authenticated');

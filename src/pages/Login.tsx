@@ -68,15 +68,16 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ background: 'var(--bg-body)' }}>
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden gradient-mesh" style={{ background: 'var(--bg-body)' }}>
       {/* Decorative grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'radial-gradient(circle, var(--primary) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }} />
-      {/* Decorative gradient blobs */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: 'var(--gradient-1)' }} />
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: 'var(--gradient-2)' }} />
+      {/* Decorative gradient orbs */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-20 blur-3xl" style={{ background: 'var(--gradient-1)' }} />
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full opacity-20 blur-3xl animate-float" style={{ background: 'var(--gradient-2)' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10 blur-3xl animate-pulse-glow" style={{ background: 'radial-gradient(circle, var(--primary), transparent)' }} />
 
       <div className="absolute top-6 right-6 flex gap-2 z-10">
         <Button variant="ghost" isIconOnly onPress={toggleTheme} aria-label="Toggle theme">
@@ -89,14 +90,14 @@ export default function Login() {
 
       <div className="w-full max-w-sm relative z-10 animate-fade-up">
         <div className="text-center mb-10">
-          <div className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center shadow-lg" style={{ background: 'var(--gradient-1)' }}>
+          <div className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center shadow-lg glass-strong" style={{ background: 'var(--gradient-1)' }}>
             <span className="text-white font-bold text-2xl">G</span>
           </div>
           <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('login.title')}</h1>
           <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>{t('login.subtitle')}</p>
         </div>
 
-        <div className="rounded-2xl border p-8 space-y-6 backdrop-blur-xl" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
+        <div className="glass rounded-2xl p-8 space-y-6">
           {error && (
             <div className="flex items-center gap-2.5 p-3.5 rounded-xl text-sm text-white" style={{ background: 'var(--danger)' }}>
               <i className="bi bi-exclamation-circle-fill" />

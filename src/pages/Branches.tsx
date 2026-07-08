@@ -47,7 +47,7 @@ export default function Branches() {
   async function handleDelete() {
     if (!deleteTarget) return
     try {
-      await supabase.from('branches').update({ is_active: false }).eq('id', deleteTarget.id)
+      await supabase.from('branches').delete().eq('id', deleteTarget.id)
       toast(t('branches.deleted'), 'success')
       setDeleteTarget(null)
       loadBranches()
@@ -67,27 +67,24 @@ export default function Branches() {
       </div>
 
       {showForm && (
-        <div className="rounded-2xl border p-6 animate-scale-in" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+        <div className="glass rounded-2xl p-6 animate-scale-in">
           <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{editing ? t('common.edit') : t('branches.add')}</h3>
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('branches.name')}</label>
                 <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required maxLength={100}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('branches.phone')}</label>
                 <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} maxLength={20}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('branches.address')}</label>
                 <textarea value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} rows={2} maxLength={500}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none"
-                  style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                  className="form-input resize-none" />
               </div>
             </div>
             <div className="flex gap-2 pt-2">
@@ -103,17 +100,14 @@ export default function Branches() {
           {Array.from({ length: 3 }).map((_, i) => <div key={i} className="skeleton h-20 rounded-2xl" />)}
         </div>
       ) : branches.length === 0 ? (
-        <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
-          <div className="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--bg)' }}>
-            <i className="bi bi-building text-2xl" />
-          </div>
-          <h3 className="text-lg font-medium">{t('branches.empty')}</h3>
+        <div className="empty-state">
+          <div className="empty-state-icon"><i className="bi bi-building" /></div>
+          <p className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>{t('branches.empty')}</p>
         </div>
       ) : (
         <div className="space-y-3">
           {branches.map((b, i) => (
-            <div key={b.id} className="card-hover rounded-2xl border p-4 flex items-center justify-between animate-fade-up"
-              style={{ borderColor: 'var(--border)', background: 'var(--bg-card)', animationDelay: `${i * 50}ms` }}>
+            <div key={b.id} className="card-hover glass rounded-2xl p-4 flex items-center justify-between animate-fade-up" style={{ animationDelay: `${i * 50}ms` }}>
               <div className="flex items-center gap-4">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white" style={{ background: 'var(--gradient-1)' }}>
                   <i className="bi bi-building" />

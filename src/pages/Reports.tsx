@@ -65,8 +65,7 @@ export default function Reports() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {reports.map(r => (
           <div key={r.type}
-            className="card-hover rounded-2xl border p-5 cursor-pointer"
-            style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}
+            className="card-hover glass rounded-2xl p-5 cursor-pointer"
             onClick={() => loadReport(r.type)}>
             <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white text-lg mb-3" style={{ background: 'var(--gradient-1)' }}>
               <i className={`bi ${r.icon}`} />
@@ -85,7 +84,7 @@ export default function Reports() {
       )}
 
       {reportData && !loading && (
-        <div className="rounded-2xl border p-6 animate-fade-up" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+        <div className="glass rounded-2xl p-6 animate-slide-up">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
             <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{reportData.title}</h3>
             <div className="flex gap-2">
@@ -93,20 +92,20 @@ export default function Reports() {
               <Button variant="ghost" size="sm" onPress={() => window.print()}><i className="bi bi-file-pdf" /> PDF</Button>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="table-wrap">
+            <table className="table-base">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
+                <tr>
                   {reportData.headers.map((h, i) => (
-                    <th key={i} className="text-left py-3 px-2 font-medium" style={{ color: 'var(--text-muted)' }}>{h}</th>
+                    <th key={i}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {reportData.rows.map((row, i) => (
-                  <tr key={i} className="border-b" style={{ borderColor: 'var(--border)' }}>
+                  <tr key={i} style={{ animationDelay: `${i * 30}ms` }}>
                     {row.map((cell, j) => (
-                      <td key={j} className="py-3 px-2" style={{ color: 'var(--text-primary)' }}>{cell}</td>
+                      <td key={j}>{cell}</td>
                     ))}
                   </tr>
                 ))}

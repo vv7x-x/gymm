@@ -58,40 +58,59 @@ export default function Settings() {
         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{t('settings.subtitle')}</p>
       </div>
 
-      <div className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('settings.general')}</h3>
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('settings.gymName')}</label>
               <input value={form.gym_name} onChange={e => setForm(f => ({ ...f, gym_name: e.target.value }))} maxLength={100}
-                className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                className="form-input" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('settings.currency')}</label>
               <input value={form.currency} onChange={e => setForm(f => ({ ...f, currency: e.target.value }))} maxLength={10}
-                className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                className="form-input" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('settings.phone')}</label>
               <input value={form.gym_phone} onChange={e => setForm(f => ({ ...f, gym_phone: e.target.value }))} maxLength={20}
-                className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                className="form-input" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('settings.address')}</label>
               <input value={form.gym_address} onChange={e => setForm(f => ({ ...f, gym_address: e.target.value }))} maxLength={500}
-                className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'var(--bg)', color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
+                className="form-input" />
             </div>
           </div>
           <Button type="submit" variant="primary">{t('settings.save')}</Button>
         </form>
       </div>
 
-      <div className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl p-6">
+        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Freeze Settings</h3>
+        <div className="space-y-4">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.freeze_fee_enabled} onChange={e => setForm(f => ({ ...f, freeze_fee_enabled: e.target.checked }))}
+              className="accent-[var(--primary)] w-4 h-4" />
+            <span className="text-sm" style={{ color: 'var(--text-primary)' }}>Enable freeze fee</span>
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Freeze Fee ({form.currency})</label>
+              <input type="number" value={form.freeze_fee} onChange={e => setForm(f => ({ ...f, freeze_fee: +e.target.value }))} min={0}
+                className="form-input" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>Max Freeze Days</label>
+              <input type="number" value={form.freeze_max_days} onChange={e => setForm(f => ({ ...f, freeze_max_days: +e.target.value }))} min={1}
+                className="form-input" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="glass rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('settings.appearance')}</h3>
         <div className="flex flex-wrap gap-3">
           <Button variant={theme === 'dark' ? 'primary' : 'ghost'} onPress={() => { if (theme !== 'dark') toggleTheme() }}>
@@ -106,7 +125,7 @@ export default function Settings() {
         </div>
       </div>
 
-      <div className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('settings.account')}</h3>
         <Button variant="ghost" onPress={handleLogout} style={{ color: 'var(--danger)' }}>
           <i className="bi bi-box-arrow-right" /> {t('settings.signOut')}

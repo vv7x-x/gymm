@@ -53,7 +53,7 @@ export default function Revenue() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((stat, i) => (
-          <div key={i} className="card-hover rounded-2xl border p-5" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+          <div key={i} className="card-hover glass rounded-2xl p-5">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-base mb-3" style={{ background: `linear-gradient(135deg, ${stat.color}, ${stat.color}88)` }}>
               <i className={`bi ${stat.icon}`} />
             </div>
@@ -63,35 +63,35 @@ export default function Revenue() {
         ))}
       </div>
 
-      <div className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}>
+      <div className="glass rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{t('revenue.recentTransactions')}</h3>
         {payments.length === 0 ? (
-          <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
-            <i className="bi bi-receipt text-4xl block mb-3" />
+          <div className="empty-state">
+            <div className="empty-state-icon"><i className="bi bi-receipt" /></div>
             {t('common.noData')}
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="table-wrap">
+            <table className="table-base">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <th className="text-left py-3 px-2 font-medium" style={{ color: 'var(--text-muted)' }}>{t('member.date')}</th>
-                  <th className="text-left py-3 px-2 font-medium" style={{ color: 'var(--text-muted)' }}>{t('members.title')}</th>
-                  <th className="text-left py-3 px-2 font-medium" style={{ color: 'var(--text-muted)' }}>{t('member.type')}</th>
-                  <th className="text-right py-3 px-2 font-medium" style={{ color: 'var(--text-muted)' }}>{t('member.amount')}</th>
+                <tr>
+                  <th>{t('member.date')}</th>
+                  <th>{t('members.title')}</th>
+                  <th>{t('member.type')}</th>
+                  <th style={{ textAlign: 'right' }}>{t('member.amount')}</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.map(p => (
-                  <tr key={p.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
-                    <td className="py-3 px-2" style={{ color: 'var(--text-primary)' }}>{formatDate(p.paid_at)}</td>
-                    <td className="py-3 px-2 font-medium" style={{ color: 'var(--text-primary)' }}>{(p.members as { full_name: string } | undefined)?.full_name || '-'}</td>
-                    <td className="py-3 px-2">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full" style={{ background: 'var(--bg-info)', color: 'var(--info)' }}>
+                  <tr key={p.id}>
+                    <td style={{ whiteSpace: 'nowrap' }}>{formatDate(p.paid_at)}</td>
+                    <td className="font-medium">{(p.members as { full_name: string } | undefined)?.full_name || '-'}</td>
+                    <td>
+                      <span className="badge" style={{ background: 'var(--bg-info)', color: 'var(--info)' }}>
                         {p.payment_type}
                       </span>
                     </td>
-                    <td className="py-3 px-2 text-right font-semibold" style={{ color: 'var(--success)' }}>+{formatCurrency(p.amount)}</td>
+                    <td style={{ textAlign: 'right' }}><span style={{ color: 'var(--success)' }}>+{formatCurrency(p.amount)}</span></td>
                   </tr>
                 ))}
               </tbody>

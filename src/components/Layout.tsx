@@ -51,31 +51,33 @@ export default function Layout({ children }: { children: ReactNode }) {
     <div className="flex h-screen overflow-hidden" dir={dir}>
       {/* Overlay for mobile */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden animate-fade-in" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 z-40 h-full flex flex-col transition-all duration-300 backdrop-blur-xl
+        className={`fixed top-0 z-40 h-full flex flex-col transition-all duration-400 ease-out
           ${isRtl ? 'right-0 border-l' : 'left-0 border-r'}
           ${collapsed ? 'w-[72px]' : 'w-[264px]'}
           ${isRtl
             ? (sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0')
             : (sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')
           }`}
-        style={{ background: 'var(--bg-sidebar)', borderColor: 'var(--border)' }}
+        style={{ background: 'var(--bg-sidebar)', borderColor: 'var(--border)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)' }}
       >
-        <div className="flex items-center h-[68px] border-b px-4 gap-2" style={{ borderColor: 'var(--border)' }}>
-          <img src="/logo.svg" alt="GYMOS" className="h-8 w-8 shrink-0" />
-          {!collapsed && <span className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>GYMOS</span>}
+        <div className="flex items-center h-[68px] border-b px-4 gap-3 shrink-0" style={{ borderColor: 'var(--border)' }}>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold shrink-0" style={{ background: 'var(--gradient-1)' }}>
+            <img src="/logo.svg" alt="GYMOS" className="h-5 w-5" />
+          </div>
+          {!collapsed && <span className="font-bold text-lg tracking-tight" style={{ color: 'var(--text-primary)' }}>GYMOS</span>}
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-3 space-y-4">
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-4 scroll-smooth">
           {navSections.map(section => (
             <div key={section.label}>
               {!collapsed && (
-                <div className="text-xs font-semibold uppercase tracking-widest px-3 mb-2" style={{ color: 'var(--text-muted)' }}>
-                  {section.label}
+                <div className="text-[11px] font-semibold uppercase tracking-[0.12em] px-3 mb-1.5" style={{ color: 'var(--text-muted)' }}>
+                  {t(section.label === 'Main Menu' ? 'nav.mainMenu' : section.label === 'Finance' ? 'nav.finance' : 'nav.system')}
                 </div>
               )}
               <div className="space-y-0.5">
@@ -84,15 +86,27 @@ export default function Layout({ children }: { children: ReactNode }) {
                     key={item.id}
                     to={item.path}
                     onClick={() => setSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 hover:opacity-100"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 relative group"
                     style={({ isActive }) => ({
                       color: isActive ? '#fff' : 'var(--text-secondary)',
                       background: isActive ? 'var(--primary)' : 'transparent',
-                      opacity: isActive ? 1 : 0.7,
                     })}
                   >
-                    <i className={`bi ${item.icon} text-lg shrink-0`} />
-                    {!collapsed && <span>{t(item.key)}</span>}
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <span
+                            className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full"
+                            style={{ background: 'var(--gradient-1)' }}
+                          />
+                        )}
+                        <i
+                          className={`bi ${item.icon} text-lg shrink-0 transition-all duration-200 group-hover:scale-110 ${isActive ? '' : ''}`}
+                          style={isActive ? { filter: 'drop-shadow(0 0 6px rgba(79,124,255,0.5))' } : undefined}
+                        />
+                        {!collapsed && <span className="truncate">{t(item.key)}</span>}
+                      </>
+                    )}
                   </NavLink>
                 ))}
               </div>
@@ -100,14 +114,14 @@ export default function Layout({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        <div className="border-t p-3 space-y-3" style={{ borderColor: 'var(--border)' }}>
+        <div className="border-t p-3 space-y-3 shrink-0" style={{ borderColor: 'var(--border)' }}>
           {!collapsed && (
             <div className="flex items-center gap-3 px-2">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm shrink-0" style={{ background: 'var(--primary)' }}>
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white font-semibold text-sm shrink-0" style={{ background: 'var(--gradient-1)' }}>
                 A
               </div>
-              <div className="text-sm">
-                <div className="font-medium" style={{ color: 'var(--text-primary)' }}>Admin</div>
+              <div className="text-sm min-w-0">
+                <div className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>Admin</div>
                 <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Owner</div>
               </div>
             </div>
@@ -127,8 +141,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${collapsed ? (isRtl ? 'lg:mr-[72px]' : 'lg:ml-[72px]') : (isRtl ? 'lg:mr-[264px]' : 'lg:ml-[264px]')}`}>
-        <header className="h-[68px] border-b flex items-center px-6 gap-2 sticky top-0 z-20" style={{ background: 'var(--bg-topbar)', borderColor: 'var(--border)', backdropFilter: 'blur(20px)' }}>
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-400 ease-out ${collapsed ? (isRtl ? 'lg:mr-[72px]' : 'lg:ml-[72px]') : (isRtl ? 'lg:mr-[264px]' : 'lg:ml-[264px]')}`}>
+        <header className="h-[68px] border-b flex items-center px-4 sm:px-6 gap-2 sticky top-0 z-20" style={{ background: 'var(--bg-topbar)', borderColor: 'var(--border)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)' }}>
           <Button variant="ghost" isIconOnly className="lg:hidden" onPress={() => setSidebarOpen(true)} aria-label="Menu">
             <i className="bi bi-list text-xl" />
           </Button>
@@ -138,7 +152,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </Button>
         </header>
 
-        <main className="flex-1 overflow-auto" style={{ background: 'var(--bg-body)' }}>
+        <main className="flex-1 overflow-auto gymos-bg gradient-mesh">
           <div className="page-content">
             {children}
           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/only-export-components */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { t as translate } from '../lib/i18n'
 
